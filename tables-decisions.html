@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BlackBox Explorer - Tables de décisions</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- AOS (Animate On Scroll) CSS (CDN) -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+    />
+
+    <!-- Font Awesome (pour les icônes) -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-Fo3rlrZj/k7ujTnHm+2qJ5G6f9BPeHZo5aN5S2PSVnUrnCO45MnN2xPBKBR+z0DL7jDpoKmujxpIj2HpoCE5HA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <!-- Styles personnalisés -->
+    <style>
+        html, body {
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #06b6d4 0%, #fde047 100%);
+        }
+        .nav-link:hover {
+            color: #9333EA;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
+
+<!-- HEADER / NAVIGATION -->
+<header class="w-full py-4 bg-white shadow-md">
+    <nav class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo / Titre du projet -->
+        <div class="text-2xl font-bold text-gray-700 flex items-center space-x-2">
+            <i class="fas fa-search"></i>
+            <span>BlackBox Explorer</span>
+        </div>
+        <!-- Liens de navigation -->
+        <div class="space-x-6">
+            <a href="index.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-home mr-1"></i> Accueil
+            </a>
+            <a href="techniques.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-clipboard-list mr-1"></i> Techniques
+            </a>
+            <a href="partitions-equivalence.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-th-large mr-1"></i> Partitions d’équivalence
+            </a>
+            <a href="analyse-valeurs-limites.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-ruler-combined mr-1"></i> Valeurs limites
+            </a>
+            <a href="tables-decisions.html" class="nav-link text-gray-600 hover:underline font-bold">
+                <i class="fas fa-table mr-1"></i> Tables de décisions
+            </a>
+            <a href="transition-etat.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-exchange-alt mr-1"></i> Transition d’état
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- SECTION HERO -->
+<section class="hero-bg flex items-center justify-center text-white py-16 px-4">
+    <div class="container mx-auto text-center" data-aos="zoom-in">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+            Tests par tables de décisions
+        </h1>
+        <p class="text-lg md:text-2xl font-light">
+            Couvrir toutes les combinaisons de conditions.
+        </p>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="container mx-auto px-4 py-10 flex flex-col gap-8">
+    <!-- Introduction -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Pourquoi utiliser les tables de décisions ?</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Les <strong>tables de décisions</strong> sont un moyen systématique de représenter
+            toutes les <em>combinaisons</em> de conditions logiques, et de vérifier les
+            <em>actions/résultats</em> attendus pour chacune. C’est particulièrement utile
+            quand les <em>règles métier</em> sont complexes ou nombreuses, et qu’on veut
+            s’assurer de ne rien omettre.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-3">
+            On l’emploie souvent pour les règles tarifaires, l’attribution de droits,
+            les enchaînements d’options, etc.
+        </p>
+    </section>
+
+    <!-- Construction d'une table de décisions -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Construction d’une table</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Une table de décisions comporte :
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mt-3 space-y-2">
+            <li>Des <strong>conditions</strong> (lignes) pouvant être Vrai (V) ou Faux (F), parfois étendues à plusieurs valeurs</li>
+            <li>Des <strong>actions</strong> (lignes) qui peuvent se produire ou non (X ou vide)</li>
+            <li>Des <strong>colonnes</strong> (règles) représentant les combinaisons réalisables de conditions</li>
+        </ul>
+        <p class="text-gray-700 mt-3">
+            Chaque colonne indique les valeurs (V/F/-, etc.) de chaque condition, et
+            les actions (X ou non) à déclencher dans ce scénario.
+        </p>
+    </section>
+
+    <!-- Ex 1 : Exercice interactif simple -->
+    <section data-aos="fade-up">
+        <h2 class="text-xl font-bold mb-3">Exercice 1 : Création d’une table de décisions simplifiée</h2>
+        <p class="text-gray-700 mb-4">
+            Pour cet exemple, nous avons 2 conditions booléennes :
+            <strong>A</strong> (oui/non) et <strong>B</strong> (oui/non).
+            Le script va générer les 4 règles (colonnes) possibles (V/F pour A, V/F pour B).
+        </p>
+
+        <div class="bg-white rounded-md p-6 shadow mt-4" id="decisionTableContainer"></div>
+        <button
+                id="generateTable"
+                class="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
+        >
+            Générer la table
+        </button>
+    </section>
+
+    <!-- Ex 2 : Minimisation / simplification de table -->
+    <section data-aos="fade-up">
+        <h2 class="text-xl font-bold mb-3">Exercice 2 : Minimisation de la table</h2>
+        <p class="text-gray-700 mb-4">
+            Parfois, certaines conditions sont <em>indépendantes</em> d’une action, et peuvent
+            être fusionnées dans la table. Essayez d’indiquer ci-dessous si l’action dépend de A,
+            de B, ou des deux, et voyez comment la table peut être réduite.
+        </p>
+
+        <!-- Formulaire -->
+        <form id="minimizeForm" class="flex flex-col md:flex-row gap-4 items-center mb-4">
+            <label class="flex flex-col">
+                <span class="text-gray-600">Action dépend de A ?</span>
+                <select id="depA" class="border rounded px-2 py-1">
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </label>
+            <label class="flex flex-col">
+                <span class="text-gray-600">Action dépend de B ?</span>
+                <select id="depB" class="border rounded px-2 py-1">
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                </select>
+            </label>
+            <button
+                    type="submit"
+                    class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 transition"
+            >
+                Minimiser
+            </button>
+        </form>
+
+        <div id="minimizeResults" class="text-gray-700"></div>
+    </section>
+
+    <!-- Conclusion -->
+    <section data-aos="fade-up">
+        <div class="bg-white rounded-md p-6 shadow mt-6">
+            <h3 class="text-xl font-bold mb-2">Conclusion</h3>
+            <p class="text-gray-700">
+                Les <strong>tests par tables de décisions</strong> offrent une vision globale
+                des <em>conditions</em> et <em>actions</em>, et aident à couvrir toutes les
+                combinaisons réalisables. Si le nombre de conditions est important, on peut
+                recourir à la <em>simplification</em> ou au <em>risque-based testing</em>
+                pour restreindre le nombre de règles à tester.
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t py-4 mt-auto">
+    <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+        © 2025 - Belhaj Ouajdi | Tous droits réservés
+    </div>
+</footer>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: false
+    });
+</script>
+
+<!-- Script Ex 1: Génération d'une table de décisions simple (2 conditions -> 4 règles) -->
+<script>
+    const generateBtn = document.getElementById('generateTable');
+    const decisionTableContainer = document.getElementById('decisionTableContainer');
+
+    generateBtn.addEventListener('click', () => {
+        // 2 conditions booléennes : A, B
+        // 4 combinaisons : (A=V,B=V), (A=V,B=F), (A=F,B=V), (A=F,B=F)
+        // On crée un tableau HTML simple
+        let html = `
+        <table class="w-full text-left">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2 border">Règle</th>
+              <th class="p-2 border">Condition A</th>
+              <th class="p-2 border">Condition B</th>
+              <th class="p-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="p-2 border">R1</td>
+              <td class="p-2 border">V</td>
+              <td class="p-2 border">V</td>
+              <td class="p-2 border">?</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">R2</td>
+              <td class="p-2 border">V</td>
+              <td class="p-2 border">F</td>
+              <td class="p-2 border">?</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">R3</td>
+              <td class="p-2 border">F</td>
+              <td class="p-2 border">V</td>
+              <td class="p-2 border">?</td>
+            </tr>
+            <tr>
+              <td class="p-2 border">R4</td>
+              <td class="p-2 border">F</td>
+              <td class="p-2 border">F</td>
+              <td class="p-2 border">?</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mt-2 text-sm text-gray-600">
+          Remplacez "?" par les actions prévues (X ou vide, ou plus complexe)
+          selon chaque règle.
+        </p>
+      `;
+        decisionTableContainer.innerHTML = html;
+    });
+</script>
+
+<!-- Script Ex 2: Minimisation de table -->
+<script>
+    const minimizeForm = document.getElementById('minimizeForm');
+    const minimizeResults = document.getElementById('minimizeResults');
+
+    minimizeForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const depA = document.getElementById('depA').value; // "oui" ou "non"
+        const depB = document.getElementById('depB').value; // "oui" ou "non"
+
+        // Cas 1 : Action dépend de A et B => 4 règles distinctes
+        // Cas 2 : Action dépend seulement de A => on peut fusionner B => 2 règles
+        // Cas 3 : Action dépend seulement de B => on peut fusionner A => 2 règles
+        // Cas 4 : Action dépend de rien => 1 seule règle ?
+
+        let html = `<div class="bg-white p-4 rounded shadow mt-4">`;
+
+        if (depA === 'oui' && depB === 'oui') {
+            html += `
+          <p>
+            L’action dépend à la fois de A et de B.<br>
+            Vous devez conserver 4 colonnes (R1, R2, R3, R4) pour couvrir
+            (V, V), (V, F), (F, V), (F, F).
+          </p>
+        `;
+        } else if (depA === 'oui' && depB === 'non') {
+            html += `
+          <p>
+            L’action ne dépend que de A (mais pas de B).<br>
+            Vous pouvez fusionner les valeurs de B, et n’avez besoin que de 2 règles :
+            (A=V) et (A=F).
+          </p>
+        `;
+        } else if (depA === 'non' && depB === 'oui') {
+            html += `
+          <p>
+            L’action ne dépend que de B (mais pas de A).<br>
+            Vous pouvez fusionner les valeurs de A, et n’avez besoin que de 2 règles :
+            (B=V) et (B=F).
+          </p>
+        `;
+        } else {
+            // depA=non, depB=non
+            html += `
+          <p>
+            L’action ne dépend ni de A, ni de B.<br>
+            Théoriquement, vous n’avez qu’une seule règle (tout résultat est identique,
+            quel que soit A ou B).
+          </p>
+        `;
+        }
+
+        html += `</div>`;
+        minimizeResults.innerHTML = html;
+    });
+</script>
+
+</body>
+</html>

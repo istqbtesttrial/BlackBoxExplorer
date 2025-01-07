@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BlackBox Explorer - Partitions d’équivalence</title>
+
+    <!-- ====== Google Fonts (ex. Roboto) ====== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- ====== Tailwind CSS (CDN) ====== -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- ====== AOS (Animate On Scroll) CSS (CDN) ====== -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+    />
+
+    <!-- ====== Font Awesome (pour les icônes) ====== -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-Fo3rlrZj/k7ujTnHm+2qJ5G6f9BPeHZo5aN5S2PSVnUrnCO45MnN2xPBKBR+z0DL7jDpoKmujxpIj2HpoCE5HA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <!-- ====== Styles personnalisés ====== -->
+    <style>
+        html, body {
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            /* Dégradé identique à celui des autres pages ou un autre de ton choix */
+            background: linear-gradient(135deg, #06b6d4 0%, #fde047 100%);
+        }
+        .nav-link:hover {
+            color: #9333EA;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
+
+<!-- HEADER / NAVIGATION -->
+<header class="w-full py-4 bg-white shadow-md">
+    <nav class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo / Titre du projet -->
+        <div class="text-2xl font-bold text-gray-700 flex items-center space-x-2">
+            <i class="fas fa-search"></i>
+            <span>BlackBox Explorer</span>
+        </div>
+        <!-- Liens de navigation (MAJ : on pointe vers la page actuelle ou les autres pages si créées) -->
+        <div class="space-x-6">
+            <a href="index.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-home mr-1"></i> Accueil
+            </a>
+            <a href="techniques.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-clipboard-list mr-1"></i> Techniques
+            </a>
+            <a href="partitions-equivalence.html" class="nav-link text-gray-600 hover:underline font-bold">
+                <i class="fas fa-th-large mr-1"></i> Partitions d’équivalence
+            </a>
+            <a href="analyse-valeurs-limites.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-ruler-combined mr-1"></i> Valeurs limites
+            </a>
+            <a href="tables-decisions.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-table mr-1"></i> Tables de décisions
+            </a>
+            <a href="transition-etat.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-exchange-alt mr-1"></i> Transition d’état
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- SECTION HERO -->
+<section class="hero-bg flex items-center justify-center text-white py-16 px-4">
+    <div class="container mx-auto text-center" data-aos="zoom-in">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+            Partitions d’équivalence
+        </h1>
+        <p class="text-lg md:text-2xl font-light">
+            Diviser intelligemment les données pour un testing efficace.
+        </p>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="container mx-auto px-4 py-10 flex flex-col gap-8">
+    <!-- Introduction -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Définition</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Les <strong>partitions d’équivalence</strong> divisent les données en partitions
+            (ou ensembles) dans l’idée que toutes les valeurs appartenant à une même partition
+            sont traitées de manière similaire par le système sous test.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-3">
+            L’idée est la suivante : si <em>une</em> valeur d’une partition déclenche un
+            comportement particulier (correct ou incorrect), alors les autres valeurs de
+            cette même partition auront le même effet. Ainsi, il suffit de tester
+            <em>une</em> valeur représentative de chaque partition, plutôt que toutes les valeurs
+            possibles.
+        </p>
+    </section>
+
+    <!-- Partitions valides vs. invalides -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Partitions valides et invalides</h2>
+        <p class="text-gray-700 leading-relaxed">
+            On distingue souvent :
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mt-3">
+            <li>
+                Les <strong>partitions valides</strong> : valeurs attendues par le système et qui
+                doivent être correctement prises en charge.
+            </li>
+            <li>
+                Les <strong>partitions invalides</strong> : valeurs imprévues ou hors du périmètre
+                normal, qui doivent être soit rejetées, ignorées ou traitées différemment.
+            </li>
+        </ul>
+        <p class="text-gray-700 mt-3">
+            Tester également les partitions invalides permet de s’assurer que le logiciel
+            gère convenablement les erreurs ou valeurs hors limites.
+        </p>
+    </section>
+
+    <!-- Notion de couverture -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Notion de couverture</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Dans la technique des partitions d’équivalence, le but est d’atteindre
+            <strong>100% de couverture</strong> en testant au moins une valeur de chaque partition
+            identifiée. Cette couverture se mesure en comparant :
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mt-3">
+            <li><strong>Nombre de partitions exercées</strong> (via les cas de test)</li>
+            <li><strong>Nombre total de partitions</strong> identifiées</li>
+        </ul>
+        <p class="text-gray-700 mt-3">
+            Ainsi, la couverture exprimée en pourcentage est :
+            <em>(partitions testées / partitions totales) × 100</em>.
+        </p>
+    </section>
+
+    <!-- Couverture Each Choice -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Couverture “Each Choice”</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Pour les systèmes avec plusieurs ensembles de partitions (par exemple, plusieurs
+            paramètres d’entrée), la stratégie la plus courante s’appelle
+            <strong>Each Choice</strong>. Elle exige que chaque partition de chaque ensemble
+            soit testée <em>au moins</em> une fois.
+        </p>
+        <p class="text-gray-700 mt-3">
+            Par exemple, si vous avez 2 paramètres d’entrée, chacun divisé en 3 partitions,
+            vous devez au minimum créer des tests qui couvrent les 3 partitions du paramètre A
+            et les 3 partitions du paramètre B. Cependant, Each Choice ne garantit pas la
+            couverture de <em>toutes</em> les combinaisons possibles.
+        </p>
+    </section>
+
+    <!-- Exemple illustratif -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Exemple illustratif</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Imaginons un champ de saisie d’âge
+            <code>(0 &le; age &le; 120)</code> :
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mt-3">
+            <li>Partition invalide 1 : <strong>age &lt; 0</strong></li>
+            <li>Partition valide : <strong>0 &le; age &le; 120</strong></li>
+            <li>Partition invalide 2 : <strong>age &gt; 120</strong></li>
+        </ul>
+        <p class="text-gray-700 mt-3">
+            On peut alors tester <strong>-1</strong> pour la partition “<code>age &lt; 0</code>”,
+            <strong>30</strong> pour la partition “<code>0 &le; age &le; 120</code>”, et
+            <strong>200</strong> pour la partition “<code>age &gt; 120</code>”.
+            Ainsi, on couvre les 3 partitions identifiées.
+        </p>
+    </section>
+
+    <!-- Exercice interactif -->
+    <section data-aos="fade-up">
+        <div class="bg-white rounded-md p-6 shadow mt-6">
+            <h3 class="text-xl font-bold mb-3">Exercice interactif</h3>
+            <p class="text-gray-700 mb-4">
+                Saisissez un intervalle <em>valide</em> (min et max) pour le champ d’âge.
+                Le script affichera ensuite les partitions
+                <strong>invalide / valide / invalide</strong>, ainsi que des valeurs
+                de test suggérées.
+            </p>
+
+            <!-- Formulaire pour choisir l'intervalle -->
+            <form id="partitionsForm" class="flex flex-col md:flex-row gap-4 items-center mb-4">
+                <label class="flex flex-col">
+                    <span class="text-gray-600">Valeur min</span>
+                    <input
+                            type="number"
+                            id="minValue"
+                            class="border rounded px-2 py-1"
+                            placeholder="Ex: 0"
+                            value="0"
+                    />
+                </label>
+                <label class="flex flex-col">
+                    <span class="text-gray-600">Valeur max</span>
+                    <input
+                            type="number"
+                            id="maxValue"
+                            class="border rounded px-2 py-1"
+                            placeholder="Ex: 120"
+                            value="120"
+                    />
+                </label>
+                <button
+                        type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
+                >
+                    Calculer
+                </button>
+            </form>
+
+            <!-- Résultats : partitions + valeurs de test -->
+            <div id="results" class="text-gray-700"></div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section data-aos="fade-up">
+        <div class="bg-white rounded-md p-6 shadow mt-6">
+            <h3 class="text-xl font-bold mb-2">Conclusion</h3>
+            <p class="text-gray-700">
+                Les partitions d’équivalence offrent un moyen efficace de
+                <strong>réduire</strong> le nombre de tests nécessaires, tout en maintenant
+                une couverture satisfaisante. Elles restent toutefois plus puissantes
+                quand on les combine avec d’autres techniques, comme l’<em>analyse des
+                valeurs limites</em> ou encore les <em>tests de transition d’état</em>.
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t py-4 mt-auto">
+    <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+        © 2025 - Belhaj Ouajdi | Tous droits réservés
+    </div>
+</footer>
+
+<!-- ====== AOS JS ====== -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: false
+    });
+</script>
+
+<!-- ====== Script pour l'exercice interactif ====== -->
+<script>
+    const form = document.getElementById('partitionsForm');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        // Récupération des valeurs min et max
+        const minVal = parseInt(document.getElementById('minValue').value, 10);
+        const maxVal = parseInt(document.getElementById('maxValue').value, 10);
+
+        // Vérifications de base
+        if (isNaN(minVal) || isNaN(maxVal)) {
+            resultsDiv.innerHTML = '<p class="text-red-500">Veuillez saisir des nombres valides.</p>';
+            return;
+        }
+        if (minVal >= maxVal) {
+            resultsDiv.innerHTML = '<p class="text-red-500">La valeur min doit être strictement inférieure à la valeur max.</p>';
+            return;
+        }
+
+        // Construction du rendu
+        let html = `
+        <p class="mb-2">
+          <strong>Intervalle valide</strong> : <code>${minVal} &le; x &le; ${maxVal}</code>
+        </p>
+        <ul class="list-disc list-inside space-y-1 mb-4">
+          <li>Partition invalide 1 : <code>x &lt; ${minVal}</code></li>
+          <li>Partition valide : <code>${minVal} &le; x &le; ${maxVal}</code></li>
+          <li>Partition invalide 2 : <code>x &gt; ${maxVal}</code></li>
+        </ul>
+      `;
+
+        // Génération de valeurs de test
+        const testInvalidLow = minVal - 1;
+        const testInvalidHigh = maxVal + 1;
+        const randomValid = getRandomInt(minVal, maxVal);
+
+        html += `
+        <h4 class="font-semibold mb-2">Valeurs de test recommandées :</h4>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>${testInvalidLow}</strong> (partition invalide x &lt; ${minVal})</li>
+          <li><strong>${randomValid}</strong> (partition valide ${minVal} &le; x &le; ${maxVal})</li>
+          <li><strong>${testInvalidHigh}</strong> (partition invalide x &gt; ${maxVal})</li>
+        </ul>
+      `;
+
+        resultsDiv.innerHTML = html;
+    });
+
+    /**
+     * Retourne un entier aléatoire compris entre min et max (inclus).
+     */
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+</body>
+</html>

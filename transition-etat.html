@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BlackBox Explorer - Test de transition d’état</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+            rel="stylesheet"
+    />
+
+    <!-- AOS (Animate On Scroll) CSS (CDN) -->
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+    />
+
+    <!-- Font Awesome (pour les icônes) -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-Fo3rlrZj/k7ujTnHm+2qJ5G6f9BPeHZo5aN5S2PSVnUrnCO45MnN2xPBKBR+z0DL7jDpoKmujxpIj2HpoCE5HA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+    <!-- Styles personnalisés -->
+    <style>
+        html, body {
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #06b6d4 0%, #fde047 100%);
+        }
+        .nav-link:hover {
+            color: #9333EA;
+        }
+        /* Optionnel : personnalisation du thème Mermaid si besoin */
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800 flex flex-col">
+
+<!-- HEADER / NAVIGATION -->
+<header class="w-full py-4 bg-white shadow-md">
+    <nav class="container mx-auto px-4 flex items-center justify-between">
+        <!-- Logo / Titre -->
+        <div class="text-2xl font-bold text-gray-700 flex items-center space-x-2">
+            <i class="fas fa-search"></i>
+            <span>BlackBox Explorer</span>
+        </div>
+        <!-- Liens de navigation (ajuster selon votre site) -->
+        <div class="space-x-6">
+            <a href="index.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-home mr-1"></i> Accueil
+            </a>
+            <a href="techniques.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-clipboard-list mr-1"></i> Techniques
+            </a>
+            <a href="partitions-equivalence.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-th-large mr-1"></i> Partitions d’équivalence
+            </a>
+            <a href="analyse-valeurs-limites.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-ruler-combined mr-1"></i> Valeurs limites
+            </a>
+            <a href="tables-decisions.html" class="nav-link text-gray-600 hover:underline">
+                <i class="fas fa-table mr-1"></i> Tables de décisions
+            </a>
+            <a href="transition-etat.html" class="nav-link text-gray-600 hover:underline font-bold">
+                <i class="fas fa-exchange-alt mr-1"></i> Transition d’état
+            </a>
+        </div>
+    </nav>
+</header>
+
+<!-- SECTION HERO -->
+<section class="hero-bg flex items-center justify-center text-white py-16 px-4">
+    <div class="container mx-auto text-center" data-aos="zoom-in">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+            Test de transition d’état
+        </h1>
+        <p class="text-lg md:text-2xl font-light">
+            Vérifier chaque état possible et ses transitions.
+        </p>
+    </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="container mx-auto px-4 py-10 flex flex-col gap-8">
+    <!-- Introduction Générale -->
+    <section data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-3">Pourquoi tester les transitions d’état ?</h2>
+        <p class="text-gray-700 leading-relaxed">
+            Le test de transition d’état modélise un logiciel ou un système sous forme
+            d’<strong>automate à états finis</strong>. Chaque événement peut faire passer
+            le système d’un <em>état</em> à un autre, et certaines transitions peuvent être
+            invalides ou interdites.
+        </p>
+        <p class="text-gray-700 leading-relaxed mt-3">
+            Pour mesurer la <strong>couverture</strong> :
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mt-3 space-y-1">
+            <li><strong>Couverture des états</strong> : Chaque état doit être visité au moins une fois.</li>
+            <li><strong>Couverture des transitions valides</strong> : Chaque transition autorisée doit être utilisée au moins une fois.</li>
+            <li><strong>Couverture de toutes les transitions</strong> (valides + non valides) : On tente également les transitions interdites pour vérifier la robustesse.</li>
+        </ul>
+    </section>
+
+    <!-- Exercice 1 : Diagramme Mermaid + Simulation (Tourniquet) -->
+    <section data-aos="fade-up">
+        <h2 class="text-xl font-bold mb-3">Exercice 1 : Tourniquet (Locked / Unlocked)</h2>
+
+        <!-- Diagramme Mermaid du Tourniquet -->
+        <div class="mermaid mb-4">
+            %% Diagramme d'état : tourniquet
+            stateDiagram-v2
+            Locked --> Locked: push
+            Locked --> Unlocked: coin
+            Unlocked --> Unlocked: coin
+            Unlocked --> Locked: push
+        </div>
+
+        <p class="text-gray-700 mb-4">
+            Le tourniquet a deux états (<code>Locked</code>, <code>Unlocked</code>).
+            Les événements (<code>coin</code>, <code>push</code>) changent ou non l’état.
+            Ci-dessous, un petit simulateur pour enchaîner les événements.
+        </p>
+
+        <!-- Simulateur Interactif -->
+        <div class="bg-white rounded-md p-6 shadow">
+            <div class="mb-2 font-semibold text-gray-700">
+                État actuel :
+                <span id="currentState" class="text-blue-600 ml-2">Locked</span>
+            </div>
+            <div class="flex gap-4 mb-4">
+                <button
+                        id="coinBtn"
+                        class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600 transition"
+                >
+                    coin
+                </button>
+                <button
+                        id="pushBtn"
+                        class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 transition"
+                >
+                    push
+                </button>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Historique :</h4>
+                <ul id="transitionLog" class="list-disc list-inside text-gray-700 space-y-1"></ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exercice 2 : Diagramme Mermaid + Explanation (Distributeur) -->
+    <section data-aos="fade-up">
+        <h2 class="text-xl font-bold mb-3">Exercice 2 : Distributeur de Tickets</h2>
+
+        <!-- Diagramme Mermaid du Distributeur -->
+        <div class="mermaid mb-4">
+            %% Diagramme d'état : Distributeur
+            stateDiagram-v2
+            Inactif --> Selection: start
+            Selection --> Inactif: cancel
+            Selection --> Payer: ok
+            Payer --> Inactif: timeout
+            Payer --> Distribution: pay
+            Distribution --> Inactif: done
+        </div>
+
+        <p class="text-gray-700 mb-4">
+            Dans cet automate, un <strong>distributeur de tickets</strong> possède les états :
+            <code>Inactif</code>, <code>Selection</code>, <code>Payer</code>,
+            <code>Distribution</code>. Les événements (<code>start</code>, <code>cancel</code>,
+            <code>ok</code>, <code>pay</code>, <code>timeout</code>, <code>done</code>)
+            dictent les transitions.
+        </p>
+
+        <!-- Explication sur le calcul des transitions -->
+        <div class="bg-white rounded-md p-6 shadow">
+            <h4 class="text-lg font-semibold mb-2">Comment calculer la couverture ?</h4>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <li><strong>État Inactif :</strong> doit être visité, par exemple au début et via <code>cancel</code>, <code>timeout</code>, etc.</li>
+                <li><strong>État Selection :</strong> atteint via <code>start</code>, puis transition possible vers <code>Inactif</code> ou <code>Payer</code>.</li>
+                <li><strong>État Payer :</strong> transition <code>pay</code> ou <code>timeout</code>.</li>
+                <li><strong>État Distribution :</strong> transition <code>done</code> pour revenir à <code>Inactif</code>.</li>
+            </ul>
+            <p class="text-gray-700 mt-3">
+                Pour couvrir <em>toutes les transitions valides</em>, il faut au moins déclencher
+                chaque événement sur l’état correspondant (ex: <code>start</code> en <code>Inactif</code>,
+                <code>ok</code> en <code>Selection</code>, etc.). Pour tenter les transitions
+                <em>invalides</em>, on essaierait par exemple <code>cancel</code> alors qu’on est
+                en <code>Payer</code>, etc., pour vérifier la bonne gestion d’erreur.
+            </p>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section data-aos="fade-up">
+        <div class="bg-white rounded-md p-6 shadow mt-6">
+            <h3 class="text-xl font-bold mb-2">Conclusion</h3>
+            <p class="text-gray-700">
+                Les <strong>tests de transition d’état</strong> permettent de valider non seulement
+                les entrées/sorties, mais aussi l’<em>enchaînement</em> correct de ces entrées sur
+                plusieurs étapes. Pour un haut niveau de confiance, on vérifie :
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mt-3 space-y-1">
+                <li>Que chaque <em>état</em> peut être atteint et fonctionne correctement.</li>
+                <li>Que chaque <em>transition</em> autorisée est testée.</li>
+                <li>Que les <em>transitions non autorisées</em> renvoient des erreurs (ou sont ignorées).</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t py-4 mt-auto">
+    <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+        © 2025 - Belhaj Ouajdi | Tous droits réservés
+    </div>
+</footer>
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: false
+    });
+</script>
+
+<!-- Initialisation Mermaid -->
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: "default" // ou "forest", "dark", etc.
+    });
+</script>
+
+<!-- Script Exercice 1 : Tourniquet Locked/Unlocked -->
+<script>
+    let currentState = 'Locked';
+
+    const currentStateEl = document.getElementById('currentState');
+    const coinBtn = document.getElementById('coinBtn');
+    const pushBtn = document.getElementById('pushBtn');
+    const transitionLog = document.getElementById('transitionLog');
+
+    function logTransition(event, oldState, newState) {
+        const li = document.createElement('li');
+        // Template string valide en ES6+ :
+        li.textContent = `[Event: ${event}] ${oldState} -> ${newState}`;
+        transitionLog.appendChild(li);
+    }
+
+    coinBtn.addEventListener('click', () => {
+        const oldState = currentState;
+        // Locked + coin => Unlocked, Unlocked + coin => Unlocked
+        if (currentState === 'Locked') {
+            currentState = 'Unlocked';
+        } else {
+            currentState = 'Unlocked'; // reste dans le même état
+        }
+        currentStateEl.textContent = currentState;
+        logTransition('coin', oldState, currentState);
+    });
+
+    pushBtn.addEventListener('click', () => {
+        const oldState = currentState;
+        // Locked + push => Locked, Unlocked + push => Locked
+        if (currentState === 'Locked') {
+            currentState = 'Locked';
+        } else {
+            currentState = 'Locked';
+        }
+        currentStateEl.textContent = currentState;
+        logTransition('push', oldState, currentState);
+    });
+</script>
+</body>
+</html>
